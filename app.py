@@ -1,6 +1,6 @@
 import uuid
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
@@ -75,6 +75,16 @@ def remove_book(book_id):
             BOOKS.remove(book)
             return True
     return False
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 400
+
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('500.html'), 500
 
 
 if __name__ == '__main__':
